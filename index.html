@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Last War: Command Deck</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; background-color: #f4f4f9; }
+        .card { background: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); max-width: 500px; margin: auto; }
+        h1 { color: #2c3e50; text-align: center; font-size: 1.5rem; }
+        label { display: block; margin-bottom: 10px; font-weight: bold; }
+        input { width: 100%; padding: 10px; margin-bottom: 20px; border: 1px solid #ccc; border-radius: 4px; box-sizing: border-box; }
+        .result { background: #eef2f7; padding: 15px; border-radius: 4px; border-left: 5px solid #3498db; }
+        p { margin: 5px 0; }
+    </style>
+</head>
+<body>
+
+<div class="card">
+    <h1>Hero EXP Calculator</h1>
+    <label>What is your Target Hero Level?</label>
+    <input type="number" id="levelInput" placeholder="Enter level (e.g. 100)" min="1" max="150">
+
+    <div id="resultArea" class="result" style="display:none;">
+        <p><strong>HQ Level Required:</strong> <span id="hqLvl">--</span></p>
+        <p><strong>EXP for this level:</strong> <span id="expCost">--</span></p>
+        <p><strong>Total EXP from Level 1:</strong> <span id="totalExp">--</span></p>
+    </div>
+</div>
+
+<script>
+    // This is a small sample of your data to get the app working immediately
+    const heroData = [
+        {lvl: 10, hq: 2, cost: 900, total: 4600},
+        {lvl: 20, hq: 4, cost: 1900, total: 19100},
+        {lvl: 30, hq: 6, cost: 3500, total: 49400},
+        {lvl: 50, hq: 10, cost: 89000, total: 541400},
+        {lvl: 100, hq: 20, cost: 13000000, total: 275025500},
+        {lvl: 150, hq: 30, cost: 185000000, total: 5744025500}
+    ];
+
+    const input = document.getElementById('levelInput');
+    const resultArea = document.getElementById('resultArea');
+
+    input.addEventListener('input', (e) => {
+        const val = parseInt(e.target.value);
+        // Find the closest level in our data
+        const match = heroData.find(d => d.lvl >= val) || heroData[heroData.length - 1];
+        
+        if (val > 0) {
+            resultArea.style.display = 'block';
+            document.getElementById('hqLvl').innerText = match.hq;
+            document.getElementById('expCost').innerText = match.cost.toLocaleString();
+            document.getElementById('totalExp').innerText = match.total.toLocaleString();
+        } else {
+            resultArea.style.display = 'none';
+        }
+    });
+</script>
+</body>
+</html>
